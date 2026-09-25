@@ -17,12 +17,11 @@ function simpleTask() {
 }
 simpleTask();
 
-
+const students = 30;
 // ===== ЗАДАНИЕ 2: Функции =====
 function getReviewerNumber(number, lab) {
     // 2.1 Функция определяющая номер ревьюера для вашей группы по вашему номеру и номеру лабораторной работы
-    const students = 30;
-    return (number + lab) % students;
+    return ((number + lab - 1) % students) + 1;
 }
 console.log(`Номер ревьюера: ${getReviewerNumber(7, 1)}`);
 
@@ -37,17 +36,18 @@ console.log(`Номер варианта: ${getVariant(7, 4)}`);
 function calculate(a, b, operation) {
     // 2.3 Напишите функцию калькулятор, калькулятор обрабатывает следующие операции: +, -, *, /
     switch (operation) {
-        case '+':
-            return a + b;
-        case '-':
-            return a - b;
-        case '*':
-            return a * b;
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return b !== 0 ? a / b : "Нельзя делить на ноль";
+        default: return "Неизвестная операция";    
     }
 }
 console.log(`Сложение 4 и 7: ${calculate(7, 4, '+')}`);
 console.log(`Вычитание 4 и 7: ${calculate(7, 4, '-')}`);
 console.log(`Умножение 4 и 7: ${calculate(7, 4, '*')}`);
+console.log(`Деление 4 и 7: ${calculate(7, 4, '/')}`);
+console.log(`Дефолт 4 и 7: ${calculate(7, 4, '=')}`);
  
 
 function calculateArea(figure, ...params) {
@@ -63,11 +63,14 @@ function calculateArea(figure, ...params) {
         case 'triangle':
             const [base, height] = params;
             return (base * height) / 2;
+        default:
+            return 'Неизвестная фигура';
     }
 }
 console.log(`Площадь круга: ${calculateArea('circle', 7)}`);
 console.log(`Площадь прямоугольника: ${calculateArea('rectangle', 7, 4)}`);
 console.log(`Площадь треугольника: ${calculateArea('triangle', 7, 4)}`);
+console.log(`Площадь квадрата: ${calculateArea('square', 7, 4)}`);
 
 
 // 2.5 Стрелочные функции
@@ -78,7 +81,7 @@ const reverseString = (str) => {
 
 const getRandomNumber = (min, max) => {
     // Функция возвращает случайное число между min и max
-    return Math.random() * (max - min) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 console.log(`Перевёрнутая строка: ${reverseString('JavaScript')}`);
 console.log(`Случайное число от 1 до 10: ${getRandomNumber(1, 10).toFixed(2)}`);
@@ -224,14 +227,14 @@ const taskManager = {
             }
         }
 
-        const NewTask = {
+        const newTask = {
             id: maxId + 1,
             title: title,
             completed: false,
             priority: priority
         };
 
-        this.tasks.push(NewTask);
+        this.tasks.push(newTask);
     },
 
 
@@ -246,7 +249,7 @@ const taskManager = {
     // Удаление задачи
     deleteTask(taskId) {
         // 5.3 Ваш код здесь
-        this.tasks = this.tasks.filter(task => task.id != taskId);
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
     },
 
     // Получение списка задач по статусу
@@ -266,7 +269,7 @@ const taskManager = {
        const completed = this.tasks.filter(task => task.completed).length;
        const pending = total - completed;
        let completionRate
-       if (total == 0) {
+       if (total === 0) {
         completionRate = 0;
        } else {
         completionRate = (completed / total) * 100;
