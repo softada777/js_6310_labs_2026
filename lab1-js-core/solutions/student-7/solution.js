@@ -28,7 +28,8 @@ console.log(`Номер ревьюера: ${getReviewerNumber(7, 1)}`);
 
 function getVariant(number, variants) {
     // 2.2 Функция определяющая номер варианта, исходя из количества вариантов
-    return number % variants;
+    const result = number % variants;
+    return result === 0 ? variants : result;
 }
 console.log(`Номер варианта: ${getVariant(7, 4)}`);
 
@@ -56,7 +57,7 @@ function calculateArea(figure, ...params) {
     switch (figure) {
         case 'circle':
             const [radius] = params;
-            return 3.14 * radius * radius;
+            return Math.round(Math.PI * radius * radius);
         case 'rectangle':
             const [a, b] = params;
             return a * b;
