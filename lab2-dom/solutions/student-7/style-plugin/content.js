@@ -71,6 +71,18 @@ function addEarthMode() {
         menuItems.forEach((item) => {
             item.classList.toggle('kai-earth-menu-item', isEnabled);
         });
+
+
+        // Стилизуем иконки, ссылки (дети меню)
+        const menu = document.querySelector('.box_links');
+        if (menu && menu.children.length > 0) {
+            for (let i = 0; i < menu.children.length; i++) {
+                menu.children[i].classList.toggle(
+                    'kai-earth-menu-child',
+                    isEnabled
+                );
+            }
+        }
     }
 
     // Обновляем текст кнопки
@@ -143,6 +155,17 @@ function addEarthMode() {
                 background-color: #f1ead7 !important;
                 border-radius: 6px !important;
                 margin: 3px !important;
+            }
+
+            /* Стили для детей меню */
+            #page_wrapper .kai-earth-menu-child {
+                transition: background-color 0.3s ease !important;
+            }
+
+            /* Стили для родителя кнопки (шапки) */
+            #page_wrapper .kai-earth-header {
+                border-bottom: 4px solid #689f38 !important;
+                background-color: #4e342e !important;
             }
 
             /* Слово «приоритет» в рамке */
@@ -228,6 +251,13 @@ function addEarthMode() {
         button.addEventListener('click', toggleEarthMode);
 
         buttonContainer.appendChild(button);
+
+
+        // Стилизуем шапку сайта (родитель кнопки)
+        const parent = buttonContainer.parentElement;
+        if (parent) {
+            parent.classList.toggle('kai-earth-header', savedState);
+        }
 
         console.log('Кнопка переключения режима «Земля» добавлена');
 
