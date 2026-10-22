@@ -45,7 +45,7 @@
 
 ## Примеры работы
 
-![Команда /start](./screenshots/telegram-1.png)
+![Команда /start](./screenshots/telegram-11.png)
 
 ![Команда /sequence и /guess](./screenshots/telegram-2.png)
 
