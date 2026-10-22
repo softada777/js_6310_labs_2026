@@ -21,3 +21,8 @@ export const checkGuess = (sequence, guess) => {
 export const getDifficultyLength = (difficulty) => {
   return DIFFICULTIES[difficulty]?.length || 0;
 };
+
+export const extendSequence = (sequence) => {
+  const randomIndex = Math.floor(Math.random() * COLOR_CODES.length);
+  return [...sequence, COLOR_CODES[randomIndex]];
+};

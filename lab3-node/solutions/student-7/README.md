@@ -49,6 +49,8 @@
 
 ![Команда /sequence и /guess](./screenshots/telegram-2.png)
 
+![Ошибка и рекорд](./screenshots/telegram-3.png)
+
 
 ## Структура проекта
 

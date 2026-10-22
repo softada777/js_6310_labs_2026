@@ -3,10 +3,9 @@ import {
   getGame,
   createGame,
   updateGame,
-  deleteGame,
   setState,
 } from '../game/gameState.js';
-import { checkGuess, getSequenceText } from '../game/gameLogic.js';
+import { checkGuess, getSequenceText, extendSequence } from '../game/gameLogic.js';
 
 const handleMessage = async (text, reply, userId = 'default') => {
   if (!text) return;
@@ -100,19 +99,32 @@ const handleMessage = async (text, reply, userId = 'default') => {
 
     if (guess === expectedColor) {
       const newStep = game.currentStep + 1;
-      updateGame(userId, { currentStep: newStep });
-
+      
+      // ИСПРАВЛЕНИЕ 1: Увеличение длины последовательности
       if (newStep === game.sequence.length) {
-        await reply('🎉 Победа! Ты запомнил всю последовательность!');
-        deleteGame(userId);
+        const newSequence = extendSequence(game.sequence);
+        
+        updateGame(userId, { 
+          sequence: newSequence, 
+          currentStep: 0 
+        });
+        
+        await reply(
+          `✅ Правильно! Ты прошел всю последовательность!\n` +
+          `🎮 Уровень повышен! Теперь цветов: ${newSequence.length}\n` +
+          `Используй /sequence, чтобы запомнить новую последовательность.`
+        );
       } else {
+        updateGame(userId, { currentStep: newStep });
         await reply(`✅ Правильно! Шаг ${newStep}`);
       }
     } else {
-      const record = Math.max(game.record, game.currentStep);
+      // ИСПРАВЛЕНИЕ 2: Шаг и рекорд считаются с +1 для пользователя
+      const record = Math.max(game.record, game.currentStep + 1);
       updateGame(userId, { state: GAME_STATES.GAME_OVER, record });
+      
       await reply(
-        `❌ Ошибка! Ты прерван на шаге ${game.currentStep}\n` +
+        `❌ Ошибка! Ты прерван на шаге ${game.currentStep + 1}\n` +
         `Текущий рекорд: ${record}`
       );
     }
